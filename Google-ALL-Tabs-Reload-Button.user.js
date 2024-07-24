@@ -2,7 +2,7 @@
 // @name         Google ALL Tabs Reload Button
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  Adds a button to google.com/* page to reload all tabs based on detected URL
+// @description  Adds a button to google.com/* page to reload all tabs based on detected URL, if you using 'Open Multiple URLs' extension then you have lots of tabs open solve first tabs captcha if get and click on Reload button
 // @author       rix4uni
 // @match        https://www.google.com/*
 // @grant        none
