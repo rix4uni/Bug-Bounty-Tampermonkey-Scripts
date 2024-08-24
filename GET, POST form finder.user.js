@@ -2,7 +2,7 @@
 // @name         GET, POST form finder
 // @namespace    http://tampermonkey.net/
 // @version      0.2
-// @description  GET, POST form finder in any website
+// @description  GET, POST form finder on any website except specified domains
 // @author       rix4uni
 // @match        *://*/*
 // @grant        none
@@ -10,6 +10,25 @@
 
 (function() {
     'use strict';
+
+    // List of domains to exclude
+    const excludedDomains = [
+        "google.com",
+        "chatgpt.com",
+        "codepen.io",
+        "netlify.app",
+        "github.com",
+        "notion.so",
+        // Add more domains here...
+    ];
+
+    // Get the current hostname
+    const hostname = window.location.hostname;
+
+    // Check if the current site is in the excluded list
+    if (excludedDomains.some(domain => hostname.includes(domain))) {
+        return; // Exit the script if the current domain is in the excluded list
+    }
 
     // Get all forms on the page
     const forms = document.querySelectorAll('form');
