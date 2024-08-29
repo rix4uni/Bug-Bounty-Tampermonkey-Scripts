@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copy URLs, Titles, Domains, and Specific URLs with Count on Google
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      0.8
 // @description  Copy URLs, Titles, Domains, and Specific URLs to clipboard (PHP, ASP, ASPX, JSP, JSPX, URLs with `=`) and show count of URLs copied
 // @author       rix4uni
 // @match        https://www.google.com/search*
@@ -93,6 +93,36 @@
             });
         }
     }
+
+
+    // Function to copy Domains and Titles to clipboard
+    function copyDomainsAndTitles() {
+        var domainTitleString = "";
+        var count = 0;
+
+        // Select all anchor elements with specified classes
+        var elements = document.querySelectorAll('.yuRUbf a[jsname="UWckNb"], .nhaZ2c a[jsname="UWckNb"], .HiHjCd a');
+
+        elements.forEach(function(element) {
+            var href = element.getAttribute('href');
+            var titleElement = element.querySelector('h3');
+            var title = titleElement ? titleElement.innerText : element.innerText; // Use the innerText if <h3> is not found
+            if (href && title) {
+                var url = new URL(href);
+                domainTitleString += url.origin + ' [' + title + ']' + "\n";
+                count++;
+            }
+        });
+
+        if (domainTitleString.length > 0) {
+            navigator.clipboard.writeText(domainTitleString).then(function() {
+                alert(count + ' Domains and Titles copied to clipboard');
+            }).catch(function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    }
+
 
 
     // Function to copy only titles to clipboard
@@ -293,6 +323,7 @@
         {text: 'Copy URLs', handler: copyUrls},
         {text: 'Copy Titles', handler: copyTitles},
         {text: 'Copy URLs and Titles', handler: copyUrlsAndTitles},
+        {text: 'Copy Domains and Titles', handler: copyDomainsAndTitles},
         {text: 'Copy Domains', handler: copyDomains},
         {text: 'Copy PHP URLs', handler: copySpecificUrls('.php')},
         {text: 'Copy ASPX URLs', handler: copySpecificUrls('.aspx')},
