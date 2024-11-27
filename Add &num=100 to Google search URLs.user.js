@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Search Add &num=100
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Add &num=100 to Google search URLs
 // @author       rix4uni
 // @match        https://www.google.com/search?q=*

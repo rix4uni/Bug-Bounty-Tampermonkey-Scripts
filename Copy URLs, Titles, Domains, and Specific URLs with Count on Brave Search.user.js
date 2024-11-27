@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Copy URLs, Titles, Domains, and Specific URLs with Count on Brave Search
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  Copy URLs, Titles, Domains, and Specific URLs to clipboard (PHP, ASP, ASPX, JSP, JSPX, URLs with `=`) from Brave search results and show count of URLs copied. Includes button for copying only titles.
 // @author       rix4uni
 // @match        https://search.brave.com/search*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=search.brave.com
 // @grant        none
 // ==/UserScript==
 

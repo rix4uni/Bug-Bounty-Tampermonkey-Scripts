@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Copy Strong Tag Values on shodan
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Copy values inside strong tags to clipboard on shodan
 // @author       rix4uni
 // @match        https://www.shodan.io/search/facet?query=*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=shodan.io
 // @grant        none
 // ==/UserScript==
 

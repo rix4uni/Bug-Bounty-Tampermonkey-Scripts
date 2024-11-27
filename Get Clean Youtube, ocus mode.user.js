@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Get Clean Youtube, Focus mode
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  Get Clean Youtube, Focus mode
 // @author       rix4uni
 // @match        https://www.youtube.com/*

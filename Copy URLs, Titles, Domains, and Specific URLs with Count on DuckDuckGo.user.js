@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Copy URLs, Titles, Domains, and Specific URLs with Count on DuckDuckGo
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  Copy URLs, Titles, Domains, and Specific URLs to clipboard (PHP, ASP, ASPX, JSP, JSPX, URLs with `=`) from DuckDuckGo search results and show count of URLs copied
 // @author       rix4uni
 // @match        https://duckduckgo.com/?t=h_&q=*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=duckduckgo.com
 // @grant        none
 // ==/UserScript==
 

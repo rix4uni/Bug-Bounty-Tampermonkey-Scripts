@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Copy URLs, Titles, Domains, and Specific URLs with Count on Yandex
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  Copy URLs, Titles, Domains, and Specific URLs to clipboard (PHP, ASP, ASPX, JSP, JSPX, URLs with `=`) from Yandex search results and show count of URLs copied. Includes button for copying only titles.
 // @author       rix4uni
 // @match        https://yandex.com/search*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=yandex.com
 // @grant        none
 // ==/UserScript==
 

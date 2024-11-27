@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copy Github Repositories
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Copy Github Repositories on button click, change button color, and display count
 // @author       rix4uni
 // @match        https://github.com/search?q=*

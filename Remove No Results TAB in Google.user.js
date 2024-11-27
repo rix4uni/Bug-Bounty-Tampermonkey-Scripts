@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Remove No Results TAB in Google
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Remove No Results TAB in Google
 // @author       rix4uni
 // @match        https://www.google.com/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=google.com
 // @grant        none
 // ==/UserScript==
 

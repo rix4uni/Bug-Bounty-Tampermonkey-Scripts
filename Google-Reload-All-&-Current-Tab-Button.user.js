@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Google Reload All & Current Tab Button
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  Adds buttons to google.com/* page to reload all tabs and to reload the current tab with detected URL if needed.
 // @match        https://www.google.com/search?q=*
 // @match        https://www.google.com/sorry/index?continue=*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=google.com
 // @grant        none
 // ==/UserScript==
 

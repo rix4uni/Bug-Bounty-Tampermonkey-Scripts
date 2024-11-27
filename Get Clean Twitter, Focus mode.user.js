@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Get Clean Twitter, Focus mode
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Get Clean Twitter, Focus mode
 // @author       rix4uni
 // @match        https://x.com/*

@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Remove Current Location in Google Bottom
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Remove Current Location in Google Bottom
 // @author       rix4uni
 // @match        https://www.google.com/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=google.com
 // @grant        none
 // ==/UserScript==
 
@@ -12,5 +13,7 @@
     'use strict';
 
     // Your code here...
-    document.querySelector('#footcnt').remove();
+    setTimeout(() => {
+        document.querySelector('#footcnt').remove();
+    }, 100)
 })();

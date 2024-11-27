@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GET, POST form finder
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  GET, POST form finder on any website except specified domains
 // @author       rix4uni
 // @match        *://*/*

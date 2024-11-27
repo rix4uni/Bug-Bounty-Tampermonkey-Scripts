@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Copy Crunchbase Acquisitions links
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Copy Crunchbase Acquisitions links and create a button to do it
 // @author       rix4uni
 // @match        https://www.crunchbase.com/organization/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=crunchbase.com
 // @grant        GM_setClipboard
 // ==/UserScript==
 

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Remove Twitter 'For you' Option
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  Automatically Remove Twitter 'For you' Option
 // @author       rix4uni
 // @match        https://twitter.com/*
