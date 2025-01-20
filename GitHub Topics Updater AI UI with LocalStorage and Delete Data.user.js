@@ -1,11 +1,10 @@
 // ==UserScript==
-// @name         GitHub Topics Updater AI UI with LocalStorage and Delete Data
+// @name         GitHub Topics Updater AI UI with LocalStorage, Delete Data, and Validation
 // @namespace    https://github.com/
-// @version      0.2
-// @description  Update GitHub repository topics directly from the browser with an AI-styled UI, handling spaces in topics, saving data to localStorage, and deleting data from localStorage.
+// @version      0.3
+// @description  Update GitHub repository topics directly from the browser with an AI-styled UI, handling spaces in topics, saving data to localStorage, deleting data from localStorage, and validation for duplicates and topic limit.
 // @author       rix4uni
 // @match        https://github.com/*/*
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=github.com
 // @grant        none
 // ==/UserScript==
 
@@ -64,6 +63,20 @@
         return topics.map(topic => topic.trim().replace(/\s+/g, '-'));
     }
 
+    // Function to remove duplicates and limit topics to 20
+    function cleanAndValidateTopics(topics) {
+        // Remove duplicates by creating a Set
+        const uniqueTopics = [...new Set(topics)];
+
+        // Limit the topics to 20
+        if (uniqueTopics.length > 20) {
+            alert('You can only add a maximum of 20 topics.');
+            return uniqueTopics.slice(0, 20); // Return the first 20 topics
+        }
+
+        return uniqueTopics;
+    }
+
     // Function to update topics
     async function updateTopics() {
         const token = document.getElementById('token').value.trim();
@@ -76,6 +89,8 @@
         }
 
         const topics = sanitizeTopics(topicsInput.split('\n').filter(Boolean));
+        const cleanedTopics = cleanAndValidateTopics(topics);
+
         const url = `https://api.github.com/repos/${repoInfo}/topics`;
 
         try {
@@ -86,7 +101,7 @@
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ names: topics }),
+                body: JSON.stringify({ names: cleanedTopics }),
             });
 
             if (response.ok) {
