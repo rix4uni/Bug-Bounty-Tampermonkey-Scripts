@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         GitHub Topics Updater AI UI with LocalStorage, Delete Data, and Validation
 // @namespace    https://github.com/
-// @version      0.3
+// @version      0.4
 // @description  Update GitHub repository topics directly from the browser with an AI-styled UI, handling spaces in topics, saving data to localStorage, deleting data from localStorage, and validation for duplicates and topic limit.
 // @author       rix4uni
 // @match        https://github.com/*/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=github.com
 // @grant        none
 // ==/UserScript==
 
