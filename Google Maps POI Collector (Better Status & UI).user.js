@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Maps POI Collector (Better Status & UI)
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Collect POIs with persistent storage, visual status card, and safer UI buttons on Google Maps.
 // @author       rix4uni
 // @match        https://www.google.com/maps/*
@@ -14,7 +14,7 @@
 
   let lastUrl = location.href;
   const STORAGE_KEY = 'poi_csv_data';
-  const csvHeader = ['Coordinates', 'Name', 'HName', 'Stars', 'Reviews', 'Category', 'Address', 'Timings'];
+  const csvHeader = ['Image', 'Coordinates', 'Name', 'HName', 'Stars', 'Reviews', 'Category', 'Address', 'Timings'];
 
   const getStoredData = () => {
     const json = localStorage.getItem(STORAGE_KEY);
@@ -132,6 +132,7 @@
     if (!name || !address || alreadySaved) return;
 
     try {
+      const image = document.querySelector('button.aoRNLd.kn2E5e.NMjTrf.lvtCsd img')?.src || '';
       const coordinates = location.href.match(/@([-.\d]+),([-.\d]+)/)?.slice(1, 3).join(',') || '';
       const hName = document.querySelector('h2.bwoZTb.fontBodyMedium')?.innerText || '';
       const stars = document.querySelector('.F7nice span span[aria-hidden="true"]')?.innerText || '';
@@ -146,7 +147,7 @@
         .filter(Boolean)
         .join('\\n');
 
-      const row = [coordinates, name, hName, stars, reviews, category, address, timings];
+      const row = [image, coordinates, name, hName, stars, reviews, category, address, timings];
       collectedData.set(key, row);
       saveDataToStorage(collectedData);
       updateCard(true);
