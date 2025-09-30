@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Copy shodan results
+// @name         Copy href values from shodan to clipboard
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Copy href values from shodan to clipboard
