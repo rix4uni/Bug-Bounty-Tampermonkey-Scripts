@@ -90,7 +90,7 @@
     btn.textContent = 'Copy Domains';
     btn.style.position = 'fixed';
     btn.style.top = '150px';
-    btn.style.right = '10px';
+    btn.style.right = '20px';
     btn.style.zIndex = '2147483647';
     btn.style.padding = '10px 16px';
     btn.style.backgroundColor = '#007bff';
