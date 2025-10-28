@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name         Copy fofa results
+// @name         FOFA Results Copier
 // @namespace    http://tampermonkey.net/
-// @version      0.2
-// @description  Extract and copy data-clipboard-text values from hsxa-copy-btn elements
+// @version      0.3
+// @description  Copy FOFA results to clipboard with one click
 // @author       rix4uni
 // @match        https://en.fofa.info/result?qbase64=*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=fofa.info
-// @grant        none
-// @run-at       document-idle
+// @grant        GM_setClipboard
+// @grant        GM_notification
 // ==/UserScript==
 
 (function() {
