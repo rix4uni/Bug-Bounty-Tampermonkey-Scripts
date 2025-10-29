@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Copy URLs, Titles, Domains, and Specific URLs with Count on Google
 // @namespace    http://tampermonkey.net/
-// @version      1.0
-// @description  Copy URLs, Titles, Domains, and Specific URLs to clipboard (PHP, ASP, ASPX, JSP, JSPX, URLs with `=`) and show count of URLs copied
+// @version      1.1
+// @description  Copy URLs, Titles, Domains, and Specific URLs to clipboard (PHP, ASP, ASPX, JSP, JSPX, URLs with `=`) and show count of URLs copied using toast messages
 // @author       rix4uni
 // @match        https://www.google.com/search?q=*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=google.com
@@ -11,6 +11,46 @@
 
 (function() {
     'use strict';
+
+    // Function to show toast message
+    function showToast(message) {
+        // Create toast element
+        var toast = document.createElement('div');
+        toast.innerHTML = message;
+        toast.style.position = 'fixed';
+        toast.style.top = '80px';
+        toast.style.left = '80%';
+        toast.style.transform = 'translateX(-50%)';
+        toast.style.backgroundColor = '#333';
+        toast.style.color = 'white';
+        toast.style.padding = '12px 24px';
+        toast.style.borderRadius = '4px';
+        toast.style.zIndex = '10000';
+        toast.style.fontSize = '14px';
+        toast.style.fontWeight = 'bold';
+        toast.style.boxShadow = '0 2px 10px rgba(0,0,0,0.3)';
+        toast.style.transition = 'opacity 0.3s ease';
+        toast.style.opacity = '0';
+        toast.style.textAlign = 'center';
+        toast.style.minWidth = '200px';
+
+        document.body.appendChild(toast);
+
+        // Animate in
+        setTimeout(function() {
+            toast.style.opacity = '1';
+        }, 10);
+
+        // Remove after 3 seconds
+        setTimeout(function() {
+            toast.style.opacity = '0';
+            setTimeout(function() {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 300);
+        }, 3000);
+    }
 
     // Function to create and style a button
     function createButton(text, topOffset, clickHandler, rightOffset, container) {
@@ -28,10 +68,10 @@
         button.style.cursor = 'pointer';
         button.addEventListener('click', function() {
             clickHandler();
-            button.style.backgroundColor = 'blue'; // Change background color of the button to blue
+            button.style.backgroundColor = 'blue';
         });
         container.appendChild(button);
-        return button; // Return the button for further manipulation
+        return button;
     }
 
     // Function to copy URLs to clipboard
@@ -49,26 +89,25 @@
 
         if (hrefString.length > 0) {
             navigator.clipboard.writeText(hrefString).then(function() {
-                alert(count + ' URLs copied to clipboard');
+                showToast(count + ' URLs copied to clipboard');
             }).catch(function(err) {
                 console.error('Could not copy text: ', err);
+                showToast('Error copying URLs');
             });
+        } else {
+            showToast('No URLs found to copy');
         }
     }
-
-
-
 
     // Function to copy URLs and Titles to clipboard
     function copyUrlsAndTitles() {
         var hrefTitleString = "";
         var count = 0;
 
-        // Select all anchor elements of the class .HiHjCd
         var hiHjCdElements = document.querySelectorAll('.HiHjCd a');
         hiHjCdElements.forEach(function(element) {
             var href = element.getAttribute('href');
-            var title = element.innerText; // Use the text of the <a> element as the title
+            var title = element.innerText;
             if (href && title) {
                 hrefTitleString += href + ' [' + title + ']' + "\n";
                 count++;
@@ -88,26 +127,26 @@
 
         if (hrefTitleString.length > 0) {
             navigator.clipboard.writeText(hrefTitleString).then(function() {
-                alert(count + ' URLs and Titles copied to clipboard');
+                showToast(count + ' URLs and Titles copied to clipboard');
             }).catch(function(err) {
                 console.error('Could not copy text: ', err);
+                showToast('Error copying URLs and Titles');
             });
+        } else {
+            showToast('No URLs and Titles found to copy');
         }
     }
-
 
     // Function to copy Domains and Titles to clipboard
     function copyDomainsAndTitles() {
         var domainTitleString = "";
         var count = 0;
 
-        // Select all anchor elements with specified classes
         var elements = document.querySelectorAll('.yuRUbf a[jsname="UWckNb"], .nhaZ2c a[jsname="UWckNb"], .HiHjCd a');
-
         elements.forEach(function(element) {
             var href = element.getAttribute('href');
             var titleElement = element.querySelector('h3');
-            var title = titleElement ? titleElement.innerText : element.innerText; // Use the innerText if <h3> is not found
+            var title = titleElement ? titleElement.innerText : element.innerText;
             if (href && title) {
                 var url = new URL(href);
                 domainTitleString += url.origin + ' [' + title + ']' + "\n";
@@ -117,14 +156,15 @@
 
         if (domainTitleString.length > 0) {
             navigator.clipboard.writeText(domainTitleString).then(function() {
-                alert(count + ' Domains and Titles copied to clipboard');
+                showToast(count + ' Domains and Titles copied to clipboard');
             }).catch(function(err) {
                 console.error('Could not copy text: ', err);
+                showToast('Error copying Domains and Titles');
             });
+        } else {
+            showToast('No Domains and Titles found to copy');
         }
     }
-
-
 
     // Function to copy only titles to clipboard
     function copyTitles() {
@@ -141,10 +181,13 @@
 
         if (titleString.length > 0) {
             navigator.clipboard.writeText(titleString).then(function() {
-                alert(count + ' Titles copied to clipboard');
+                showToast(count + ' Titles copied to clipboard');
             }).catch(function(err) {
                 console.error('Could not copy text: ', err);
+                showToast('Error copying Titles');
             });
+        } else {
+            showToast('No Titles found to copy');
         }
     }
 
@@ -164,10 +207,13 @@
 
         if (domainString.length > 0) {
             navigator.clipboard.writeText(domainString).then(function() {
-                alert(count + ' domains copied to clipboard');
+                showToast(count + ' domains copied to clipboard');
             }).catch(function(err) {
                 console.error('Could not copy text: ', err);
+                showToast('Error copying domains');
             });
+        } else {
+            showToast('No domains found to copy');
         }
     }
 
@@ -187,10 +233,13 @@
 
             if (specificUrlString.length > 0) {
                 navigator.clipboard.writeText(specificUrlString).then(function() {
-                    alert(count + ' ' + fileExtension + ' URLs copied to clipboard');
+                    showToast(count + ' ' + fileExtension + ' URLs copied to clipboard');
                 }).catch(function(err) {
                     console.error('Could not copy text: ', err);
+                    showToast('Error copying ' + fileExtension + ' URLs');
                 });
+            } else {
+                showToast('No ' + fileExtension + ' URLs found to copy');
             }
         };
     }
@@ -210,10 +259,13 @@
 
         if (equalsUrlString.length > 0) {
             navigator.clipboard.writeText(equalsUrlString).then(function() {
-                alert(count + ' URLs with "=" copied to clipboard');
+                showToast(count + ' URLs with "=" copied to clipboard');
             }).catch(function(err) {
                 console.error('Could not copy text: ', err);
+                showToast('Error copying URLs with "="');
             });
+        } else {
+            showToast('No URLs with "=" found to copy');
         }
     }
 
@@ -232,10 +284,13 @@
 
         if (gitUrlString.length > 0) {
             navigator.clipboard.writeText(gitUrlString).then(function() {
-                alert(count + ' URLs with "/.git" copied to clipboard');
+                showToast(count + ' URLs with "/.git" copied to clipboard');
             }).catch(function(err) {
                 console.error('Could not copy text: ', err);
+                showToast('Error copying URLs with "/.git"');
             });
+        } else {
+            showToast('No URLs with "/.git" found to copy');
         }
     }
 
@@ -369,10 +424,10 @@
     buttons.forEach(function(button, index) {
         var column = Math.floor(index / 19);
         var topOffset = 150 + (index % 19) * 40;
-        var rightOffset = 10 + column * 170; // Adjust the horizontal offset based on the column
+        var rightOffset = 10 + column * 170;
         var btn = createButton(button.text, topOffset, button.handler, rightOffset, document.body);
         createCheckbox(button.text, btn, index);
-        allButtons.push(btn); // Add the button to the list of all buttons
+        allButtons.push(btn);
     });
 
     // Toggle collapse state
