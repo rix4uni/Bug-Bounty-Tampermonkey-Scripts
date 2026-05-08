@@ -5,6 +5,7 @@
 // @description  Copy FOFA results to clipboard with one click
 // @author       rix4uni
 // @match        https://en.fofa.info/result?qbase64=*
+// @match        https://fofa.so/result?qbase64=*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=fofa.info
 // @grant        GM_setClipboard
 // @grant        GM_notification
