@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         FOFA Results Copier
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  Copy FOFA results to clipboard with one click
 // @author       rix4uni
 // @match        https://en.fofa.info/result?qbase64=*
@@ -90,8 +90,8 @@
         // Style the button
         button.style.cssText = `
             position: fixed;
-            top: 40px;
-            right: 20px;
+            top: 80px;
+            right: 0px;
             background: #409EFF;
             color: white;
             border: none;
