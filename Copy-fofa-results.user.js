@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         FOFA Results Copier
+// @name         FOFA Results Copier + Auto Page Size 50
 // @namespace    http://tampermonkey.net/
-// @version      0.4
-// @description  Copy FOFA results to clipboard with one click
+// @version      0.5
+// @description  Automatically sets page_size=50 and copy FOFA results to clipboard with one click
 // @author       rix4uni
 // @match        https://en.fofa.info/result?qbase64=*
 // @match        https://fofa.so/result?qbase64=*
@@ -14,31 +14,55 @@
 (function() {
     'use strict';
 
+    // Auto set page_size=50
+    const currentUrl = new URL(window.location.href);
+    const params = new URLSearchParams(currentUrl.search);
+
+    if (params.get('page_size') !== '50') {
+        params.set('page_size', '50');
+        currentUrl.search = params.toString();
+        window.location.replace(currentUrl.toString());
+        return;
+    }
+
     // Function to extract URLs from FOFA results
     function extractFofaUrls() {
-        const elements = document.querySelectorAll('.hsxa-fl.hsxa-meta-data-list-lv1-lf');
-        const urls = Array.from(elements).map(element => {
-            const link = element.querySelector('.hsxa-host a');
-            return link ? link.href : null;
-        }).filter(url => url !== null);
+        const urls = new Set();
 
-        return urls;
+        // Current FOFA layout
+        document.querySelectorAll('.hsxa-fl.hsxa-meta-data-list-lv1-lf').forEach(element => {
+            const link = element.querySelector('.hsxa-host a');
+            if (link && link.href) {
+                urls.add(link.href);
+            }
+        });
+
+        // Fallback: collect all result links
+        if (urls.size === 0) {
+            document.querySelectorAll('a[href^="http"]').forEach(link => {
+                try {
+                    const href = link.href;
+                    if (href && !href.includes('fofa')) {
+                        urls.add(href);
+                    }
+                } catch (e) {}
+            });
+        }
+
+        return [...urls];
     }
 
     // Function to show toast notification
     function showToast(message, duration = 3000) {
-        // Remove existing toast if any
         const existingToast = document.getElementById('fofa-copy-toast');
         if (existingToast) {
             existingToast.remove();
         }
 
-        // Create toast element
         const toast = document.createElement('div');
         toast.id = 'fofa-copy-toast';
         toast.innerHTML = message;
 
-        // Style the toast
         toast.style.cssText = `
             position: fixed;
             bottom: 20px;
@@ -56,47 +80,39 @@
             opacity: 0;
         `;
 
-        // Add to page
         document.body.appendChild(toast);
 
-        // Animate in
         setTimeout(() => {
             toast.style.opacity = '1';
         }, 10);
 
-        // Animate out and remove
         setTimeout(() => {
             toast.style.opacity = '0';
             setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.parentNode.removeChild(toast);
-                }
+                toast.remove();
             }, 300);
         }, duration);
     }
 
     // Function to create and add the copy button
     function addCopyButton() {
-        // Check if button already exists
         if (document.getElementById('fofa-copy-btn')) {
             return;
         }
 
-        // Create button
         const button = document.createElement('button');
         button.id = 'fofa-copy-btn';
-        button.innerHTML = '📋 Copy fofa results';
+        button.innerHTML = '📋 Copy FOFA Results';
 
-        // Style the button
         button.style.cssText = `
             position: fixed;
             top: 80px;
-            right: 0px;
+            right: 0;
             background: #409EFF;
             color: white;
             border: none;
             padding: 10px 16px;
-            border-radius: 4px;
+            border-radius: 4px 0 0 4px;
             cursor: pointer;
             font-family: Arial, sans-serif;
             font-size: 14px;
@@ -106,62 +122,55 @@
             transition: background 0.3s;
         `;
 
-        // Add hover effect
         button.addEventListener('mouseenter', () => {
             button.style.background = '#66b1ff';
         });
+
         button.addEventListener('mouseleave', () => {
             button.style.background = '#409EFF';
         });
 
-        // Add click event
-        button.addEventListener('click', async () => {
+        button.addEventListener('click', () => {
             try {
                 const urls = extractFofaUrls();
 
                 if (urls.length === 0) {
-                    showToast('No FOFA results found to copy!', 2000);
+                    showToast('❌ No FOFA results found!');
                     return;
                 }
 
-                // Join URLs with newlines
                 const textToCopy = urls.join('\n');
 
-                // Copy to clipboard using Tampermonkey API
                 GM_setClipboard(textToCopy, 'text');
 
-                // Show success message
-                showToast(`✅ Copied ${urls.length} FOFA results to clipboard!`);
+                showToast(`✅ Copied ${urls.length} FOFA results!`);
 
             } catch (error) {
-                console.error('Error copying FOFA results:', error);
-                showToast('❌ Failed to copy results. Check console for details.');
+                console.error(error);
+                showToast('❌ Failed to copy results.');
             }
         });
 
-        // Add button to page
         document.body.appendChild(button);
     }
 
-    // Initialize when page loads
-    window.addEventListener('load', addCopyButton);
-
-    // Also try to add button when DOM is ready (for SPA navigation)
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', addCopyButton);
-    } else {
+    // Initialize
+    function init() {
         addCopyButton();
     }
 
-    // Optional: Re-add button if page content changes (for SPAs)
-    const observer = new MutationObserver((mutations) => {
-        for (let mutation of mutations) {
-            if (mutation.type === 'childList') {
-                // Check if our button was removed
-                if (!document.getElementById('fofa-copy-btn')) {
-                    addCopyButton();
-                }
-            }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+    window.addEventListener('load', init);
+
+    // Re-add button if FOFA updates page dynamically
+    const observer = new MutationObserver(() => {
+        if (!document.getElementById('fofa-copy-btn')) {
+            addCopyButton();
         }
     });
 
