@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Copy URLs, Titles, Domains, and Specific URLs with Count on Google
+// @name         Copy Google Results
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      2.0
 // @description  Copy URLs, Titles, Domains, and Specific URLs to clipboard (PHP, ASP, ASPX, JSP, JSPX, URLs with `=`) and show count of URLs copied using toast messages
 // @author       rix4uni
 // @match        https://www.google.com/search?q=*
